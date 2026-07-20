@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required
 
 from app import db
 from app import User
+from app.utils import requires_role
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -53,20 +54,7 @@ def login():
     return jsonify({"message": f"User Loggedin successfully, {token}"}), 200
 
 
-
-@auth_bp.route('/me', methods=['GET'])
-@jwt_required()
-def me():
-    user_id = get_jwt_identity()
-    user = User.query.get(int(user_id))
-
-    if not user:
-        return jsonify({"error": "User not found"}), 404
-
-    return jsonify({
-        "id": user.id,
-        "name": user.name,
-        "email": user.email,
-        "role": user.role,
-        "company_id": user.company_id
-    }), 200
+@auth_bp.route('/admin', methods=['GET', 'POST'])
+@requires_role('admin')
+def admin():
+    return jsonify({"Message": "Welcome Admin!"})

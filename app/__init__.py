@@ -15,6 +15,12 @@ jwtManager = JWTManager(app)
 
 from app.models.company import Company
 from app.models.user import User
+from app.models.customer import Customer
+from app.models.order import Order
+from app.models.orderItem import OrderItem
+from app.models.product import Product
+from app.models.stock import Stock
+from app.models.warehouse import Warehouse
 from app.routes.auth import auth_bp
 app.register_blueprint(auth_bp)
 
