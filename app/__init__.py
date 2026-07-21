@@ -22,6 +22,9 @@ from app.models.product import Product
 from app.models.stock import Stock
 from app.models.warehouse import Warehouse
 from app.routes.auth import auth_bp
+from .routes.warehouse import warehouse_bp
+
 app.register_blueprint(auth_bp)
+app.register_blueprint(warehouse_bp)
 
 
