@@ -1,8 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token
 
-from app import db
-from app import User
+from app import db, Users
 from app.utils import requires_role
 
 auth_bp = Blueprint('auth', __name__)
@@ -16,11 +15,11 @@ def register():
         if field not in data or not data[field]:
             return jsonify({"Error": f"Missing Field: {field}"}), 400
 
-    existingUser = User.query.filter_by(email=data['email']).first()
+    existingUser = Users.query.filter_by(email=data['email']).first()
     if existingUser:
         return jsonify({"Error": "Email Already Registered"}), 400
 
-    newUser = User(
+    newUser = Users(
         name=data['name'],
         email=data['email'],
         role=data['role'],
@@ -45,7 +44,7 @@ def login():
         if field not in data or not data[field]:
             return jsonify({"Error": f"Missing Field: {field}"}), 400
 
-    existingUser = User.query.filter_by(email=data['email']).first()
+    existingUser = Users.query.filter_by(email=data['email']).first()
     if not existingUser or not existingUser.checkPassword(data['password']):
         return jsonify({"Error": "Invalid Credentials!"}), 401
 

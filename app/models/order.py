@@ -1,6 +1,6 @@
 from app import db
 
-class Order(db.Model):
+class Orders(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     company_id = db.Column(db.Integer, db.ForeignKey('company.id'), nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable=False)

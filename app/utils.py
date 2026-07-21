@@ -1,7 +1,7 @@
 from functools import wraps
 from flask import jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from app.models.user import User
+from app.models.user import Users
 
 def requires_role(role):
     def decorator(f):
@@ -9,7 +9,7 @@ def requires_role(role):
         @jwt_required()
         def wrapper(*args, **kwargs):
             user_id = get_jwt_identity()
-            user = User.query.get(int(user_id))
+            user = Users.query.get(int(user_id))
 
             if not user:
                 return jsonify({"Error": "User Not Found!"}), 404

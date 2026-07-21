@@ -1,10 +1,10 @@
 from app import db, bcrypt
 
-class User(db.Model):
+class Users(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String, nullable = False)
     email = db.Column(db.String, unique = True)
-    password_hash = db.Column(db.String)
+    password_hash = db.Column(db.String, nullable = False)
     role = db.Column(db.String, nullable=False)
     company_id = db.Column(db.Integer, db.ForeignKey('company.id'), nullable = False)
 

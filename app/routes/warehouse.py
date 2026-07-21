@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
-from app import db, Company, Warehouse, User
+from app import db, Warehouse, Users
 from app.utils import requires_role
 
 warehouse_bp = Blueprint('warehouse', __name__)
@@ -15,7 +15,7 @@ def create_warehouse():
         return jsonify({"Error": "Missing Required Field: name"}), 400
 
     user_id = get_jwt_identity()
-    user = User.query.get(int(user_id))
+    user = Users.query.get(int(user_id))
 
     if not user:
         return jsonify({"Error": "User Not Found"}), 404
@@ -44,7 +44,7 @@ def create_warehouse():
 @jwt_required()
 def get_warehouse():
     user_id = get_jwt_identity()
-    user = User.query.get(int(user_id))
+    user = Users.query.get(int(user_id))
 
     if not user:
         return jsonify({"Error": "User Not Found"}), 404
