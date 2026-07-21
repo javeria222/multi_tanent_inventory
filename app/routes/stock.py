@@ -77,3 +77,45 @@ def get_stock():
         for s in stocks
     ]
     return jsonify(result), 200
+
+@stock_bp.route('/stock/<int:stock_id>/adjust', methods=['PATCH'])
+@jwt_required()
+def update_stock(stock_id):
+    data = request.get_json() or {}
+
+    if 'change' not in data:
+        return jsonify({"Error": "Missing required field: change"}), 400
+
+    user_id = get_jwt_identity()
+    user = Users.query.get(int(user_id))
+    if not user:
+        return jsonify({"Error": "User Not Found"}), 404
+
+    stock_item = (
+        Stock.query
+        .join(Product, Stock.product_id == Product.id)
+        .filter(Stock.id == stock_id, Product.company_id == user.company_id)
+        .with_for_update()
+        .first()
+    )
+    if not stock_item:
+        return jsonify({"Error": "Stock item not found in your company"}), 404
+
+    change = data['change']
+    new_quant = stock_item.quantity + change
+
+    if new_quant < 0:
+        return jsonify({"Error": "Not enough stock available"}), 400
+
+    stock_item.quantity = new_quant
+    db.session.commit()
+
+    return jsonify({
+        "Message": "Stock updated successfully",
+        "Stock": {
+            "id": stock_item.id,
+            "product_id": stock_item.product_id,
+            "warehouse_id": stock_item.warehouse_id,
+            "quantity": stock_item.quantity
+        }
+    }), 200
