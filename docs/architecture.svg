@@ -1,0 +1,74 @@
+<svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#4b5563" />
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="900" height="560" fill="#ffffff"/>
+
+  <text x="450" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#111827">
+    Request Flow: Multi-Tenant Inventory API
+  </text>
+
+  <!-- Client -->
+  <rect x="370" y="60" width="160" height="55" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="450" y="93" text-anchor="middle" font-size="14" font-weight="600" fill="#1e3a8a">Client (Postman /</text>
+  <text x="450" y="110" text-anchor="middle" font-size="14" font-weight="600" fill="#1e3a8a">frontend app)</text>
+
+  <!-- Arrow down -->
+  <line x1="450" y1="115" x2="450" y2="150" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="465" y="138" font-size="12" fill="#6b7280">JSON + Bearer Token</text>
+
+  <!-- Flask App box -->
+  <rect x="140" y="150" width="620" height="230" rx="10" fill="#f9fafb" stroke="#9ca3af" stroke-width="2"/>
+  <text x="450" y="175" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Flask Application</text>
+
+  <!-- JWT check -->
+  <rect x="170" y="195" width="160" height="60" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="250" y="220" text-anchor="middle" font-size="12.5" font-weight="600" fill="#92400e">JWT Auth</text>
+  <text x="250" y="237" text-anchor="middle" font-size="11.5" fill="#92400e">(@jwt_required)</text>
+
+  <!-- Role check -->
+  <rect x="370" y="195" width="160" height="60" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="450" y="220" text-anchor="middle" font-size="12.5" font-weight="600" fill="#991b1b">Role Check</text>
+  <text x="450" y="237" text-anchor="middle" font-size="11.5" fill="#991b1b">(@requires_role)</text>
+
+  <!-- Tenant scoping -->
+  <rect x="570" y="195" width="160" height="60" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="650" y="220" text-anchor="middle" font-size="12.5" font-weight="600" fill="#14532d">Tenant Scoping</text>
+  <text x="650" y="237" text-anchor="middle" font-size="11.5" fill="#14532d">(filter by company_id)</text>
+
+  <!-- arrows between the three boxes -->
+  <line x1="330" y1="225" x2="368" y2="225" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="530" y1="225" x2="568" y2="225" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Business logic -->
+  <rect x="170" y="285" width="560" height="70" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="450" y="310" text-anchor="middle" font-size="13" font-weight="600" fill="#4c1d95">Business Logic Layer</text>
+  <text x="450" y="330" text-anchor="middle" font-size="11.5" fill="#4c1d95">
+    Order state machine · row-level stock locking (SELECT FOR UPDATE)
+  </text>
+  <text x="450" y="346" text-anchor="middle" font-size="11.5" fill="#4c1d95">
+    transactional order creation with rollback on failure
+  </text>
+
+  <!-- arrow down from the three boxes to business logic -->
+  <line x1="450" y1="255" x2="450" y2="283" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Arrow down to SQLAlchemy -->
+  <line x1="450" y1="380" x2="450" y2="415" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="465" y="403" font-size="12" fill="#6b7280">ORM query</text>
+
+  <!-- SQLAlchemy -->
+  <rect x="330" y="415" width="240" height="50" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+  <text x="450" y="445" text-anchor="middle" font-size="13.5" font-weight="600" fill="#075985">SQLAlchemy ORM + Migrations</text>
+
+  <!-- Arrow down to Postgres -->
+  <line x1="450" y1="465" x2="450" y2="495" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- PostgreSQL -->
+  <rect x="330" y="495" width="240" height="50" rx="8" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="450" y="525" text-anchor="middle" font-size="14" font-weight="700" fill="#1e3a8a">PostgreSQL</text>
+
+</svg>
