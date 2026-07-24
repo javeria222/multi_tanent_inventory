@@ -50,9 +50,14 @@ def get_customer():
     if not user:
         return jsonify({"Error": "User Not Found"}), 404
 
-    customers = Customer.query.filter_by(company_id=user.company_id).all()
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
 
-    result = [
+    pagination = Customer.query.filter_by(company_id=user.company_id).paginate(
+        page=page, per_page=per_page, error_out=False
+    )
+
+    items = [
         {
             "id": c.id,
             "email": c.email,
@@ -60,8 +65,14 @@ def get_customer():
             "company_id": c.company_id,
             "credit_limit": c.credit_limit
         }
-        for c in customers
+        for c in pagination.items
     ]
 
-    return jsonify(result), 200
+    return jsonify({
+        "items": items,
+        "total": pagination.total,
+        "page": pagination.page,
+        "pages": pagination.pages,
+        "per_page": per_page
+    }), 200
 

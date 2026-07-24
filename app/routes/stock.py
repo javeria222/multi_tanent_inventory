@@ -60,23 +60,34 @@ def get_stock():
     if not user:
         return jsonify({"Error": "User Not Found"}), 404
 
-    stocks = (
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
+
+    pagination = (
         Stock.query
         .join(Product, Stock.product_id == Product.id)
         .filter(Product.company_id == user.company_id)
-        .all()
+        .paginate(page=page, per_page=per_page, error_out=False)
     )
 
-    result = [
+    items = [
         {
             "id": s.id,
             "product_id": s.product_id,
             "warehouse_id": s.warehouse_id,
             "quantity": s.quantity
         }
-        for s in stocks
+        for s in pagination.items
     ]
-    return jsonify(result), 200
+
+    return jsonify({
+        "items": items,
+        "total": pagination.total,
+        "page": pagination.page,
+        "pages": pagination.pages,
+        "per_page": per_page
+    }), 200
+
 
 @stock_bp.route('/stock/<int:stock_id>/adjust', methods=['PATCH'])
 @jwt_required()

@@ -116,9 +116,14 @@ def get_orders():
     if not user:
         return jsonify({"Error": "User Not Found"}), 404
 
-    orders = Orders.query.filter_by(company_id=user.company_id).all()
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
 
-    result = [
+    pagination = Orders.query.filter_by(company_id=user.company_id).paginate(
+        page=page, per_page=per_page, error_out=False
+    )
+
+    items = [
         {
             "id": w.id,
             "status": w.status,
@@ -127,9 +132,16 @@ def get_orders():
             "customer_id": w.customer_id,
             "created_at": w.created_at
         }
-        for w in orders
+        for w in pagination.items
     ]
-    return jsonify(result), 200
+
+    return jsonify({
+        "items": items,
+        "total": pagination.total,
+        "page": pagination.page,
+        "pages": pagination.pages,
+        "per_page": per_page
+    }), 200
 
 
 @orders_bp.route('/orders/<int:order_id>/status', methods=['PATCH'])
