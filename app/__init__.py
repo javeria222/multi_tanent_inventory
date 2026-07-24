@@ -26,10 +26,14 @@ from app.routes.warehouse import warehouse_bp
 from app.routes.product import product_bp
 from app.routes.stock import stock_bp
 from app.routes.customer import customer_bp
+from app.routes.orders import orders_bp
+from app.errors import register_error_handlers
+
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(warehouse_bp)
 app.register_blueprint(product_bp)
 app.register_blueprint(stock_bp)
 app.register_blueprint(customer_bp)
-
+app.register_blueprint(orders_bp)
+register_error_handlers(app)

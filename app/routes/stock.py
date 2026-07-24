@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
-from app import Users, Stock, Product, Warehouse, db
+from app import Users, Stock, Product, Warehouse, db, Orders
 from app.utils import requires_role
 
 stock_bp = Blueprint('stock', __name__)

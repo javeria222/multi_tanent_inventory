@@ -22,8 +22,8 @@ def create_customer():
 
     new_customer = Customer(
         name = data['name'],
-        email = data['email'],
-        credit_limit = data['credit_limit'],
+        email = data.get('email'),
+        credit_limit = data.get('credit_limit'),
         company_id = user.company_id
     )
 
