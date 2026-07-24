@@ -13,6 +13,10 @@ Most portfolio projects are single-tenant CRUD apps. This one simulates a real B
 - **ORM / Migrations:** SQLAlchemy, Flask-Migrate (Alembic)
 - **Auth:** Flask-JWT-Extended (JWT tokens), Flask-Bcrypt (password hashing)
 
+## Architecture
+
+ ![Architecture Diagram](docs/architecture.svg)
+
 
 ## Architecture Highlights
 
