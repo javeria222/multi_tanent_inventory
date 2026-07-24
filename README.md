@@ -76,10 +76,6 @@ All list endpoints support pagination via `?page=` and `?per_page=` query parame
    python run.py
    ```
 
-## Testing
-
-INCLUDE IMAGES
-
 ## Possible Future Improvements
 
 - Credit-limit enforcement on order creation (partially modeled via `Customer.credit_limit`)
